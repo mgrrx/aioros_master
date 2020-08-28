@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+
+from asyncio import get_event_loop
+
+from aioros_master import Master
+
+
+def main():
+    loop = get_event_loop()
+    master = Master()
+    try:
+        loop.run_until_complete(master.init(loop))
+        loop.run_forever()
+    except KeyboardInterrupt as e:
+        print("Received KeyboardInterrupt, shutting down...")
+        loop.run_until_complete(master.close())
+        loop.stop()
+        loop.run_until_complete(loop.shutdown_asyncgens())
+    else:
+        loop.run_until_complete(master.close())
+
+
+if __name__ == '__main__':
+    main()

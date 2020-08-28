@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+
+  <name>aioros_master</name>
+  <version>0.0.1</version>
+  <description>Python 3 asyncio based ROS Master</description>
+
+  <author>Markus Grimm</author>
+  <maintainer email="grimm.markus@gmail.com">Markus Grimm</maintainer>
+
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>aioros</run_depend>
+  <run_depend>python3-aiohttp</run_depend>
+  <run_depend>python3-aiohttp-xmlrpc</run_depend>
+
+  <export />
+
+</package>
