@@ -1,3 +1,4 @@
+from asyncio import gather
 from collections import defaultdict
 from itertools import chain
 from typing import Any
@@ -93,6 +94,9 @@ class RegistrationManager:
         self.services: RegistrationMap = defaultdict(set)
         self.topic_types: Dict[str, str] = {}
         self._nodes: Dict[str, Node] = {}
+
+    async def close(self):
+        await gather(*[node.close() for node in self._nodes.values()])
 
     def on_param_update(
         self,

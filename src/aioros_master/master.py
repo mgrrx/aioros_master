@@ -38,4 +38,6 @@ class Master:
             await self._server.cleanup()
             self._server = None
         self._param_cache = None
+        if self._registration_manager:
+            await self._registration_manager.close()
         self._registration_manager = None
