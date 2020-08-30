@@ -84,15 +84,8 @@ class MasterApi(XMLRPCView):
         self,
         caller_id: str,
         key: str,
-        *args,
-        **kwargs
+        value: Any
     ) -> IntResult:
-        # TODO args/kwargs is a workaround for
-        # https://github.com/mosquito/aiohttp-xmlrpc/issues/21
-        if args:
-            value = args[0]
-        else:
-            value = kwargs
         self.request.app['param_cache'][key] = value
         self.request.app['registration_manager'].on_param_update(
             key, value, caller_id)
