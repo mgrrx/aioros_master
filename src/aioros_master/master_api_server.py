@@ -1,7 +1,9 @@
 from asyncio import get_event_loop
+from inspect import getfullargspec
 from os import getpid
 from os import kill
 from signal import SIGINT
+from types import MappingProxyType
 from typing import Any
 from typing import List
 from typing import Tuple
@@ -24,10 +26,16 @@ TopicInfo = Tuple[str, str]
 
 class MasterApi(XMLRPCView):
 
-    def _lookup_method(self, method_name):
-        if method_name == 'system.multicall':
-            return self.rpc_multicall
-        return super()._lookup_method(method_name)
+    def __init__(self, request):
+        super().__init__(request)
+        method_arg_mapping = dict(self.__method_arg_mapping__)
+        method_arg_mapping['system.multicall'] = \
+            getfullargspec(self.rpc_multicall)
+        self.__method_arg_mapping__ = MappingProxyType(method_arg_mapping)
+
+        allowed_methods = dict(self.__allowed_methods__)
+        allowed_methods['system.multicall'] = 'rpc_multicall'
+        self.__allowed_methods__ = MappingProxyType(allowed_methods)
 
     async def rpc_multicall(self, call_list):
         results = []
