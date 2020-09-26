@@ -5,5 +5,5 @@ find_package(catkin REQUIRED)
 
 catkin_python_setup()
 catkin_package()
-install(PROGRAMS scripts/aiorosmaster
+catkin_install_python(PROGRAMS scripts/aiorosmaster
         DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION})
