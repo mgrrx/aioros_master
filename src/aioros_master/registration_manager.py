@@ -7,6 +7,8 @@ from typing import List
 from typing import NamedTuple
 from typing import Set
 
+from aiohttp.client_exceptions import ClientConnectorError
+
 from aioros.api.node_api_client import NodeApiClient
 
 from .utils import split
@@ -72,8 +74,12 @@ class Node:
         self,
         msg: str
     ) -> None:
-        await self.shutdown(msg)
-        await self.close()
+        try:
+            await self.shutdown(msg)
+        except ClientConnectorError:
+            pass
+        finally:
+            await self.close()
 
 
 def compute_all_keys(key, value):
