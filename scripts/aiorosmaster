@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from asyncio import get_event_loop
+from asyncio.runners import _cancel_all_tasks
 
 from aioros_master import Master
 
@@ -13,6 +14,7 @@ def main():
         loop.run_forever()
     except KeyboardInterrupt as e:
         print("Received KeyboardInterrupt, shutting down...")
+        _cancel_all_tasks(loop)
         loop.run_until_complete(master.close())
         loop.stop()
         loop.run_until_complete(loop.shutdown_asyncgens())
